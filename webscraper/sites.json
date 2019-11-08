@@ -1,0 +1,302 @@
+[
+  {
+    "name": "ikon",
+    "page": "https://ikon.mn/opinion/1pm3",
+    "titleSelector": "h1",
+    "contentSelector": ".lrparagraph:1"
+  },
+  {
+    "name": "gogo",
+    "page": "http://gogo.mn/r/v35gx",
+    "titleSelector": "h1",
+    "contentSelector": ".newscontbody-text"
+  },
+  {
+    "name": "news",
+    "page": "https://news.mn/r/2218423/",
+    "titleSelector": ".single-title-container h1.entry-title",
+    "contentSelector": ".single-content"
+  },
+  {
+    "name": "peak",
+    "page": "http://peak.mn/news/belgiin-daramt-darga-namaig-duudaj-uruunduu-oruulaad-unsekh-gej-dairsan",
+    "titleSelector": "h1",
+    "contentSelector": ".postcontent"
+  },
+  {
+    "name": "polit",
+    "page": "http://polit.mn/74177",
+    "titleSelector": "h2.title",
+    "contentSelector": "div.text"
+  },
+  {
+    "name": "zuv",
+    "page": "http://zuv.mn/ky8",
+    "titleSelector": "h1",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "updown",
+    "page": "https://updown.mn/100058.html",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "newspress",
+    "page": "https://newspress.mn/v1/p/news/12078",
+    "titleSelector": "h3.news-title",
+    "contentSelector": "div.body"
+  },
+  {
+    "name": "gereg",
+    "page": "https://gereg.mn/news/35268",
+    "titleSelector": "h1",
+    "contentSelector": "div.text"
+  },
+  {
+    "name": "nertur",
+    "page": "http://nertur.mn/i/3662",
+    "titleSelector": "h2.page-title",
+    "contentSelector": ".news-read-body"
+  },
+  {
+    "name": "livetv",
+    "page": "https://livetv.mn/p/13653",
+    "titleSelector": ".post-view h3",
+    "contentSelector": ".post-view .page-title"
+  },
+  {
+    "name": "sonin",
+    "page": "http://www.sonin.mn/news/politics-fb-bot/106470",
+    "titleSelector": "h3",
+    "contentSelector": ".sonin-nctext"
+  },
+  {
+    "name": "olloo",
+    "page": "http://olloo.mn/n/69321.html",
+    "titleSelector": "h2",
+    "contentSelector": ".post_content.tbl"
+  },
+  {
+    "name": "itoim",
+    "page": "http://itoim.mn/article/ltEz7/18850",
+    "titleSelector": "h1",
+    "contentSelector": ".post-contents .container:1:.col-md-8"
+  },
+  {
+    "name": "medee",
+    "page": "https://medee.mn/single/140972",
+    "titleSelector": "h1#single-title",
+    "contentSelector": "#single-content"
+  },
+  {
+    "name": "arslan",
+    "page": "http://www.arslan.mn/social/capital/610015.shtml",
+    "titleSelector": "h2",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "udriintoim",
+    "page": "http://udriintoim.mn/oyutolgoin-gereenii-ajliin-hesegt-ajillasan-gishvvded-bayr-hvrgeh-ni-zvitei/",
+    "titleSelector": "h2.page-title",
+    "contentSelector": "div.post-content"
+  },
+  {
+    "name": "mongolcom",
+    "page": "http://mongolcom.mn/read/5871",
+    "titleSelector": "h1",
+    "contentSelector": ".article-content"
+  },
+  {
+    "name": "news1",
+    "page": "http://news1.mn/?p=42610",
+    "titleSelector": "h1",
+    "contentSelector": ".td-post-content"
+  },
+  {
+    "name": "zarig",
+    "page": "https://zarig.mn/gju",
+    "titleSelector": "h2",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "sosa",
+    "page": "http://www.sosa.mn/i/10607",
+    "titleSelector": "h2.page-title",
+    "contentSelector": ".news-detail-text"
+  },
+  {
+    "name": "dardas",
+    "page": "http://dardas.mn/news/view/12397",
+    "titleSelector": "h3",
+    "contentSelector": ".content"
+  },
+  {
+    "name": "mminfo",
+    "page": "http://mminfo.mn/news/view/24321",
+    "titleSelector": "#ch1 h2",
+    "contentSelector": "#ch1 div.ft"
+  },
+  {
+    "name": "asuudal",
+    "page": "http://asuudal.mn/more/2913",
+    "titleSelector": "h1",
+    "contentSelector": "#news-content"
+  },
+  {
+    "name": "zindaa",
+    "page": "https://news.zindaa.mn/2yf4",
+    "titleSelector": "h1",
+    "contentSelector": ".desc_contents"
+  },
+  {
+    "name":"seruuleg",
+    "page": "http://seruuleg.mn/20798",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "newsmedia",
+    "page": "http://newsmedia.mn/30960",
+    "titleSelector": "h2:0",
+    "contentSelector": ".has-content-area"
+  },
+  {
+    "name": "bolod",
+    "page": "http://www.bolod.mn/News/216448.html",
+    "titleSelector": "h1:0",
+    "contentSelector": ".fullstory div[align='justify']"
+  },
+  {
+    "name": "inews",
+    "page": "https://www.inews.mn/a/10560",
+    "titleSelector": "h3",
+    "contentSelector": ".view-full__story-content"
+  },
+  {
+    "name": "unen",
+    "page": "http://www.unen.mn/a/96957",
+    "titleSelector": "h3",
+    "contentSelector": ".cp-post-content div:2"
+  },
+  {
+    "name": "paparatsi",
+    "page": "https://paparatsi.mn/pdv",
+    "titleSelector": ".newsDetTitle",
+    "contentSelector": ".newsDetDesc"
+  },
+  {
+    "name": "unuudur",
+    "page": "http://unuudur.mn/%D0%B4-%D1%8D%D1%80%D0%B4%D1%8D%D0%BC%D0%B1%D0%B8%D0%BB%D1%8D%D0%B3-%D3%A9%D0%B4%D3%A9%D1%80%D1%82-8-%D0%BA%D0%BC-%D0%B1%D1%83%D1%8E%D1%83-10000-%D0%B0%D0%BB%D1%85%D0%B0%D0%BB%D1%82-%D1%85%D0%B8%D0%B9%D0%B6-%D0%B1%D0%B0%D0%B9%D0%B6-%D1%85%D2%AF%D0%BD%D0%B8%D0%B9-%D0%B1%D0%B8%D0%B5-%D1%8D%D1%80%D2%AF%D2%AF%D0%BB-%D0%B1%D0%B0%D0%B9%D0%B6-%D1%87%D0%B0%D0%B4%D0%BD%D0%B0/",
+    "titleSelector": ".news-container h1",
+    "contentSelector": ".no_first_image"
+  },
+  {
+    "name": "niigmiintoli",
+    "page": "http://niigmiintoli.mn/article/27078",
+    "titleSelector": ".col>div.font-weight-bold.font_mw",
+    "contentSelector": ".content_description"
+  },
+  {
+    "name": "24barimt",
+    "page": "http://24barimt.mn/27978.html",
+    "titleSelector": "h1.entry-title",
+    "contentSelector": "#mvp-content-main"
+  },
+  {
+    "name": "zaluu",
+    "page": "http://www.zaluu.com/read/3g12ffadg",
+    "titleSelector": "h1",
+    "contentSelector": ".post-body"
+  },
+  {
+    "name": "amjilt",
+    "page": "https://amjilt.news/28475",
+    "titleSelector": "h1",
+    "contentSelector": ".text"
+  },
+  {
+    "name": "tur",
+    "page": "http://www.tur.mn/archive/ontsloh/38422-2019-ond-soelyg-demzhih-zhil-bolgon-zarlasan-mngov-aymagt-azhillaad-irlee.html",
+    "titleSelector": "h1",
+    "contentSelector": ".content-inner .col-sm-9>div:0"
+  },
+  {
+    "name": "fact",
+    "page": "http://www.fact.mn/406654.html",
+    "titleSelector": "h1",
+    "contentSelector": ".content-block div"
+  },
+  {
+    "name": "shuurhai",
+    "page": "https://shuurhai.mn/n/7657",
+    "titleSelector": "h1",
+    "contentSelector": ".content-single"
+  },
+  {
+    "name": "control",
+    "page": "http://www.control.mn/i/19746",
+    "titleSelector": "h1",
+    "contentSelector": "#news_view_body"
+  },
+  {
+    "name": "jirgee",
+    "page": "http://www.jirgee.mn/page/more/10589",
+    "titleSelector": ".newsmore h3:0",
+    "contentSelector": ".newsmore>div:1"
+  },
+  {
+    "name": "tonshuul",
+    "page": "http://tonshuul.mn/index.php?newsid=15224",
+    "titleSelector": "h1>.post-title",
+    "contentSelector": ".entry-content.single-post-content"
+  },
+  {
+    "name": "mongolcomment",
+    "page": "http://mongolcomment.mn/index.php?newsid=38677",
+    "titleSelector": "#news-title",
+    "contentSelector": ".maincont"
+  },
+  {
+    "name": "scandal",
+    "page": "http://scandal.mn/index.php?newsid=18340",
+    "titleSelector": "h2",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "miss",
+    "page": "http://miss.mn/235275.html",
+    "titleSelector": "h1",
+    "contentSelector": ".content-block>div:0"
+  },
+  {
+    "name": "ontslokh",
+    "page": "http://www.ontslokh.mn/168333.html",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "inet",
+    "page": "http://inet.mn/index.php?newsid=2015",
+    "titleSelector": "h1.entry-title",
+    "contentSelector": "#mvp-content-main"
+  },
+  {
+    "name": "kingnews",
+    "page": "http://kingnews.mn/index.php?newsid=30598",
+    "titleSelector": "#news-title",
+    "contentSelector": ".maincont"
+  },
+  {
+    "name": "tusgaar",
+    "page": "http://www.tusgaar.mn/97598",
+    "titleSelector": "h1",
+    "contentSelector": ".content-inner"
+  },
+  {
+    "name": "murch",
+    "page": "http://murch.mn/2019/11/04/25580023131654532121212/",
+    "titleSelector": "h2.post_title",
+    "contentSelector": ".single_post_content"
+  }
+]

@@ -1,0 +1,8 @@
+[
+  {
+    "name": "cnn",
+    "page": "https://www.cnn.com/2019/11/07/politics/donald-trump-rudy-giuliani-impeachment/index.html",
+    "titleSelector": "h1",
+    "contentSelector": ".zn-body-text .l-container"
+  }
+]
