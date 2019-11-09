@@ -1,7 +1,8 @@
-import puppeteer, {JSONObject} from 'puppeteer';
+import puppeteer, {Browser, JSONArray, JSONObject, Page} from 'puppeteer';
 import * as fs from "fs";
 import SiteConfig from "./SiteConfig";
 import chalk from 'chalk'
+import program from 'commander';
 
 function offset(el:HTMLElement):{top:number,left:number}{
     let rect = el.getBoundingClientRect();
@@ -31,8 +32,13 @@ function parentCount(el: HTMLElement):number{
     return count;
 }
 
-
+const TagInfoNames=['tagName','left','top','width','height','children','textCount','parentCount',
+    'fontSize','linkCount','paragraphCount','imageCount','colorRed','colorGreen','colorBlue',
+    'backgroundRed','backgroundGreen','backgroundBlue','backgroundAlpha','textAlign','marginTop',
+    'marginRight','marginBottom','marginLeft','paddingTop','paddingRight','paddingBottom','paddingLeft',
+    'descendants','relPosX','relPosY'];
 type TagInfo={
+    crawlerId:string|null,
     tagName:string,
     left:number,
     top:number,
@@ -62,6 +68,8 @@ type TagInfo={
     paddingBottom:number,
     paddingLeft:number,
     descendants:number,
+    relPosX:number,
+    relPosY:number,
     title:boolean,
     content:boolean
 }
@@ -99,6 +107,7 @@ function extractTagInformation(el:HTMLElement):TagInfo{
         }
     }
     return {
+        crawlerId:null,
         tagName:el.tagName,
         left:off.left,
         top:off.top,
@@ -128,40 +137,14 @@ function extractTagInformation(el:HTMLElement):TagInfo{
         paddingBottom:paddingBottom,
         paddingLeft:paddingLeft,
         descendants:el.getElementsByTagName("*").length,
+        relPosX:off.left/el.ownerDocument.body.scrollWidth,
+        relPosY:off.top/el.ownerDocument.body.scrollHeight,
         title:title,
         content:content
     }
 }
 
-import program from 'commander';
-
-program
-    .option('-i, --input <input>', 'input config file of sites to scrape','sites.json')
-    .option('-o, --output <output>', 'output file to save','out.csv')
-    .option('-a --append','append to file')
-    .option('-b --begin <siteToBegin>','site to begin')
-    .option('-s --sites <sites>','sites to process')
-    .option('-p --predict <pred>', "page to predict")
-    .parse(process.argv);
-
-
-let confieFile=program.input;
-let outFile=program.output;
-
-if(!program.append)
-fs.writeFileSync(outFile,"site,url,tagName,left,"+
-    "top,width,height,children,textCount,parentCount,fontSize,linkCount,paragraphCount, imageCount,colorRed,colorGreen,colorBlue,backgroundRed,"+
-    "backgroundGreen,backgroundBlue,backgroundAlpha,textAlign,marginTop,marginRight,marginBottom,marginLeft,"+
-    "paddingTop,paddingRight,paddingBottom,paddingLeft,descendants,title,content");
-
-
-console.log("reading file:"+confieFile);
-const rawData=fs.readFileSync(confieFile);
-const config=JSON.parse(rawData.toString()) as Array<SiteConfig>;
-
-(async () => {
-
-
+const _openBrower=async ():Promise<Page>=>{
     const browser = await puppeteer.launch({
         headless:true,
         args: [
@@ -169,7 +152,149 @@ const config=JSON.parse(rawData.toString()) as Array<SiteConfig>;
         ],
     });
 
-    const page = await browser.newPage();
+    return browser.newPage();
+};
+
+const _openWebPage=async (page:Page,url:string)=>{
+    await page.goto(url,
+        {
+            timeout: 3000000,
+            waitUntil: ['load', 'domcontentloaded', 'networkidle2', 'networkidle0']
+        });
+
+    await page.setViewport({
+        width: 1920,
+        height: 1080,
+        deviceScaleFactor: 1
+    });
+
+    await page.addScriptTag({content:`${parentCount} ${wordCount} ${offset} ${extractTagInformation}`});
+
+};
+
+const _tagTitleContents=async (page:Page,titleSelectors:string[],contentSelectors:string[])=>{
+    let specialTags:string[][]=[];
+    specialTags=specialTags.concat(titleSelectors.map(t=>[t,'title']));
+    specialTags=specialTags.concat(contentSelectors.map(t=>[t,'content']));
+
+    await page.evaluate((specialTags:string[][])=>{
+
+        for (let [selector,type] of specialTags){
+            const selectors=selector.split(":");
+            let titleElement=document.body;
+            let titleNodes=document.querySelectorAll("body");
+            for(let selector of selectors){
+                if(isNaN(Number(selector))){
+                    titleNodes=titleElement.querySelectorAll(selector);
+                    titleElement=titleNodes.item(0);
+                }else{
+                    titleElement=titleNodes.item(Number(selector));
+                }
+            }
+            if(titleElement!=null)
+            titleElement.setAttribute("xDataCrawler",type)
+        }
+
+    },specialTags);
+};
+
+const _readElementsInfo=async (page:Page):Promise<TagInfo[]>=>{
+    const dimensions = await page.evaluate(() => {
+        let elements=document.body.getElementsByTagName("*");
+        let result=[];
+        for(let i=0;i<elements.length;i++){
+            const htmlEl=elements.item(i) as HTMLElement;
+            let t=extractTagInformation(htmlEl);
+            htmlEl.setAttribute("xDataCrawler-id",String(i));
+            t.crawlerId=(String(i));
+            result.push(t)
+        }
+        return result;
+    });
+    return dimensions;
+};
+
+const _saveShots=async (page:Page, path:string)=>{
+    await page.evaluate(()=>{
+        document.querySelectorAll("[xDataCrawler]").forEach(value=>{
+            const htmlEl=value as HTMLElement;
+            if(htmlEl.getAttribute("xDataCrawler")==='title'){
+                htmlEl.style.border="blue solid";
+            }else htmlEl.style.border="red solid";
+        })
+    })
+    await page.screenshot({path:path, fullPage: true});
+}
+
+import {spawn} from 'child_process'
+const _predict=(url:string)=>{
+    const pythonProcess = spawn('python3',["../classifier/predictor.py"]);
+
+
+
+    (async ()=>{
+        const page=await _openBrower();
+        pythonProcess.stdout.on('data', async (data) => {
+            data=data.toString();
+            console.log(data);
+            const titles=data.substring(data.indexOf('[',data.indexOf('titles:'))+1,
+                data.indexOf(']',data.indexOf('titles:')))
+                .replace(/\r?\n|\r/g,'');
+            const contents=data.substring(data.indexOf('[',data.indexOf('contents:'))+1,
+                data.indexOf(']',data.indexOf('contents:')))
+                .replace(/\r?\n|\r/g,'');
+            const titlesArray=titles.split(',').map((t:string)=>"[xDataCrawler-id='"+parseInt(t)+"']");
+            const contentsArray=contents.split(',').map((t:string)=>"[xDataCrawler-id='"+parseInt(t)+"']");
+            console.log(titlesArray);
+            console.log(contentsArray);
+
+            if(program.shots){
+                await _tagTitleContents(page,titlesArray,contentsArray);
+                await _saveShots(page,program.shots+"/"+Math.floor(Math.random()*1000)+".png");
+            }
+
+
+
+            page.browser().close();
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+            page.browser().close();
+        });
+        await _openWebPage(page,url);
+
+        const dimentions=await _readElementsInfo(page);
+
+        let line='crawlerId';
+        TagInfoNames.forEach(t=>line+=","+t);
+        pythonProcess.stdin.write(line+'\n');
+        dimentions.forEach(d=>{
+            let line=d.crawlerId;
+            // @ts-ignore
+            TagInfoNames.forEach(t=>line+=","+d[t]);
+            pythonProcess.stdin.write(line+'\n');
+        });
+        pythonProcess.stdin.end();
+
+    })();
+
+};
+
+const _collectInfo=()=>{
+    let confieFile=program.input;
+    let outFile=program.output;
+
+    if(!program.append){
+        let header="site,url";
+        TagInfoNames.forEach(t=>header+=","+t);
+        header+=",title,content";
+        fs.writeFileSync(outFile,header);
+    }
+
+    console.log("reading file:"+confieFile);
+    const rawData=fs.readFileSync(confieFile);
+    const config=JSON.parse(rawData.toString()) as Array<SiteConfig>;
 
     let configToProcess=config;
     if(program.begin){
@@ -184,114 +309,70 @@ const config=JSON.parse(rawData.toString()) as Array<SiteConfig>;
         }
     }else
     if(program.sites){
-         const sitesToProcess:Array<string>=program.sites.split(",");
-         configToProcess=[];
-         sitesToProcess.forEach(s=>{
-             for(let c of config){
-                  if(c.name===s){
-                      configToProcess.push(c);
-                      break;
-                  }
-             }
-         })
+        const sitesToProcess:Array<string>=program.sites.split(",");
+        configToProcess=[];
+        sitesToProcess.forEach(s=>{
+            for(let c of config){
+                if(c.name===s){
+                    configToProcess.push(c);
+                    break;
+                }
+            }
+        })
     }
 
-    for(let c of configToProcess){
-        console.log(chalk.blueBright('starting to read:'+c.name));
-        await page.goto(c.page,
-            {
-                timeout: 3000000,
-                waitUntil: ['load', 'domcontentloaded', 'networkidle2', 'networkidle0']
+    (async () => {
+
+        const page=await _openBrower();
+
+        for(let c of configToProcess){
+            console.log(chalk.blueBright('starting to read:'+c.name));
+
+            await _openWebPage(page,c.page);
+
+            await _tagTitleContents(page,[c.titleSelector],[c.contentSelector]);
+
+            const dimentions=await _readElementsInfo(page);
+
+            dimentions.forEach(d=>{
+                try{
+                    let line="\n"+c.name+","+c.page.replace(/,/g,'');
+                    // @ts-ignore
+                    TagInfoNames.forEach(t=>line+=","+d[t]);
+                    line+=","+d.title;
+                    line+=","+d.content;
+                    fs.appendFileSync(outFile,line);
+                }catch (e) {
+                    console.log(d)
+                }
+
             });
 
-        await page.setViewport({
-            width: 1920,
-            height: 1080,
-            deviceScaleFactor: 1
-        });
-
-        await page.addScriptTag({content:`${parentCount} ${wordCount} ${offset} ${extractTagInformation}`});
-
-
-        await page.evaluate((c:SiteConfig)=>{
-
-            for (let [selector,type] of [[c.titleSelector,"title"],[c.contentSelector,"content"]]){
-                const titleSelectors=selector.split(":");
-                let titleElement=document.body;
-                let titleNodes=document.querySelectorAll("body");
-                for(let selector of titleSelectors){
-                    if(isNaN(Number(selector))){
-                        titleNodes=titleElement.querySelectorAll(selector);
-                        titleElement=titleNodes.item(0);
-                    }else{
-                        titleElement=titleNodes.item(Number(selector));
-                    }
-                }
-                titleElement.setAttribute("xDataCrawler",type)
+            if(program.shots){
+                await _saveShots(page,program.shots+'/'+c.name+'.png');
             }
 
-        },c as unknown as JSONObject);
+            console.log(dimentions.length+' elements read');
+        }
 
-        const dimensions = await page.evaluate(() => {
-            let elements=document.body.getElementsByTagName("*");
-            let result=[];
-            for(let i=0;i<elements.length;i++){
-                let t=extractTagInformation(elements.item(i) as HTMLElement);
-                result.push(t)
-            }
-            return result;
-        });
-
-        dimensions.forEach(d=>{
-             try{
-                 let line="\n"+c.name+","+c.page.replace(/,/g,'');
-                 line+=","+d.tagName;
-                 line+=","+d.left;
-                 line+=","+d.top;
-                 line+=","+d.width;
-                 line+=","+d.height;
-                 line+=","+d.children;
-                 line+=","+d.textCount;
-                 line+=","+d.parentCount;
-                 line+=","+d.fontSize;
-                 line+=","+d.linkCount;
-                 line+=","+d.paragraphCount;
-                 line+=","+d.imageCount;
-                 line+=","+d.colorRed;
-                 line+=","+d.colorGreen;
-                 line+=","+d.colorBlue;
-                 line+=","+d.backgroundRed;
-                 line+=","+d.backgroundGreen;
-                 line+=","+d.backgroundBlue;
-                 line+=","+d.backgroundAlpha;
-                 line+=","+d.textAlign;
-                 line+=","+d.marginTop;
-                 line+=","+d.marginRight;
-                 line+=","+d.marginBottom;
-                 line+=","+d.marginLeft;
-                 line+=","+d.paddingTop;
-                 line+=","+d.paddingRight;
-                 line+=","+d.paddingBottom;
-                 line+=","+d.paddingLeft;
-                 line+=","+d.descendants;
-                 line+=","+d.title;
-                 line+=","+d.content;
-                 fs.appendFileSync(outFile,line);
-             }catch (e) {
-                 console.log(d)
-             }
-
-        })
-
-        await page.evaluate(()=>{
-            document.querySelectorAll("[xDataCrawler]").forEach(value=>{
-                (value as HTMLElement).style.border="red solid";
-            })
-        })
-        await page.screenshot({path:'shots/'+c.name+'.png', fullPage: true});
-        console.log(dimensions.length+' elements read');
-    }
+        page.browser().close();
+    })();
+}
 
 
-    await browser.close();
-})();
+
+program
+    .option('-i, --input <input>', 'input config file of sites to scrape','sites.json')
+    .option('-o, --output <output>', 'output file to save','out.csv')
+    .option('-a --append','append to file')
+    .option('-b --begin <siteToBegin>','site to begin')
+    .option('-s --sites <sites>','sites to process')
+    .option('-p --predict <predict>', "page to predict")
+    .option('-t --shots <shots>',"directory to save screenshots")
+    .parse(process.argv);
+if(program.predict){
+    _predict(program.predict);
+}else{
+    _collectInfo();
+}
+
