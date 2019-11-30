@@ -298,5 +298,305 @@
     "page": "http://murch.mn/2019/11/04/25580023131654532121212/",
     "titleSelector": "h2.post_title",
     "contentSelector": ".single_post_content"
+  },
+  {
+    "name": "nytimes",
+    "page": "https://www.nytimes.com/2019/11/26/us/politics/trump-whistle-blower-complaint-ukraine.html",
+    "titleSelector": "h1[itemprop='headline']>span:1",
+    "contentSelector": "section[itemprop='articleBody']"
+  },
+  {
+    "name": "cnn",
+    "page": "https://www.cnn.com/2019/11/26/politics/trump-cnn-impeachment-poll/index.html",
+    "titleSelector": "h1",
+    "contentSelector": "section#body-text div.l-container"
+  },
+  {
+    "name": "hill",
+    "page": "https://thehill.com/homenews/campaign/472189-watch-live-trump-holds-homecoming-rally-in-florida",
+    "titleSelector": "h1",
+    "contentSelector": "div.field-name-body div.field-item"
+  },
+  {
+    "name": "nrp",
+    "page": "https://www.npr.org/2019/11/26/783161208/santa-barbara-county-fire-burns-4-200-acres-threatens-thousands-of-homes",
+    "titleSelector": "h1",
+    "contentSelector": "#storytext"
+  },
+  {
+    "name": "foxnews",
+    "page": "https://www.foxnews.com/travel/denver-airport-cancels-flights-snow",
+    "titleSelector": "h1",
+    "contentSelector": "div.article-body"
+  },
+  {
+    "name": "nbcnews",
+    "page": "https://www.nbcnews.com/news/us-news/storms-threaten-thanksgiving-travel-around-u-s-hundreds-flights-canceled-n1091531",
+    "titleSelector": "h1",
+    "contentSelector": "div.article-body__content"
+  },
+  {
+    "name": "cnstock",
+    "page": "http://news.cnstock.com/news,bwkx-201911-4457251.htm",
+    "titleSelector": "h1",
+    "contentSelector": "#qmt_content_div"
+  },
+  {
+    "name": "workercn",
+    "page": "http://news.workercn.cn/32842/201911/27/191127072846679.shtml",
+    "titleSelector": "h1.ctitle",
+    "contentSelector": "div.ccontent"
+  },
+  {
+    "name": "zjol",
+    "page": "https://china.zjol.com.cn/201911/t20191126_11401111.shtml",
+    "titleSelector": "div.contTit",
+    "contentSelector": "div.contTxt"
+  },
+  {
+    "name": "sina",
+    "page": "https://news.sina.com.cn/c/xl/2019-11-26/doc-iihnzahi3364809.shtml",
+    "titleSelector": "h1.main-title",
+    "contentSelector": "#article"
+  },
+  {
+    "name": "xinhuanet",
+    "page": "http://www.xinhuanet.com/2019-11/26/c_1125273505.htm",
+    "titleSelector": ".h-title",
+    "contentSelector": "#p-detail"
+  },
+  {
+    "name": "t-online",
+    "page": "https://www.t-online.de/nachrichten/ausland/usa/id_86885248/melania-trump-first-lady-bei-auftritt-in-baltimore-heftig-ausgebuht.html",
+    "titleSelector": "h2>span",
+    "contentSelector": "div[itemprop='articleBody']"
+  },
+  {
+    "name": "sueddeutsche",
+    "page": "https://www.sueddeutsche.de/politik/hartz-iv-bundesverfassungsgericht-kuerzungen-sanktionen-1.4698013",
+    "titleSelector": "h2 .sz-article-header__title",
+    "contentSelector": "div[itemprop='articleBody']"
+  },
+  {
+    "name": "spiegel",
+    "page": "https://www.spiegel.de/politik/ausland/demokraten-trump-kann-zu-anhoerung-erscheinen-oder-beschwerden-einstellen-a-1298429.html",
+    "titleSelector": "h2.article-title .headline",
+    "contentSelector": ".article-section"
+  },
+  {
+    "name": "stern",
+    "page": "https://www.stern.de/politik/die-morgenlage--melania-trump-wird-von-schuelern-ausgebuht-9020842.html",
+    "titleSelector": "#mainTitle",
+    "contentSelector": ".article-content .rtf-content-wrapper"
+  },
+  {
+    "name": "tagesschau",
+    "page": "https://www.tagesschau.de/ausland/trump-anhoerung-einladung-101.html",
+    "titleSelector": "h1 .headline",
+    "contentSelector": ".modParagraph:1"
+  },
+  {
+    "name": "sankei",
+    "page": "https://www.sankei.com/world/news/191127/wor1911270005-n1.html",
+    "titleSelector": "#__r_article_title__",
+    "contentSelector": ".post_content"
+  },
+  {
+    "name": "ismedia",
+    "page": "https://wedge.ismedia.jp/articles/-/17991",
+    "titleSelector": "h1.title",
+    "contentSelector": ".article-body"
+  },
+  {
+    "name": "yahoojp",
+    "page": "https://headlines.yahoo.co.jp/article?a=20191127-00068718-gendaibiz-kr&p=1",
+    "titleSelector": "h1",
+    "contentSelector": ".articleMain"
+  },
+  {
+    "name": "yomiuri",
+    "page": "https://www.yomiuri.co.jp/national/20191127-OYT1T50133/",
+    "titleSelector": "h1",
+    "contentSelector": ".p-main-contents"
+  },
+  {
+    "name": "rocketnews24",
+    "page": "https://rocketnews24.com/2019/11/26/1296213/",
+    "titleSelector": "h2.entry-title",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "444hu",
+    "page": "https://444.hu/2019/11/27/harom-havi-tb-tartozas-utan-elvennek-az-ingyenes-ellatast",
+    "titleSelector": "h1",
+    "contentSelector": "#content-main>article"
+  },
+  {
+    "name": "24hu",
+    "page": "https://24.hu/fn/gazdasag/2019/11/27/tb-tartozas-taj-szam-elveszik/",
+    "titleSelector": "h1>span",
+    "contentSelector": ".post-body"
+  },
+  {
+    "name": "portfolio",
+    "page": "https://www.portfolio.hu/uzlet/20191127/elkepeszto-kiserletbe-kezdtek-a-szuperhatalmak-siker-eseten-1000-evre-megoldanak-az-emberiseg-energiaellatasat-408251",
+    "titleSelector": "h1",
+    "contentSelector": ".pfarticle-section-content"
+  },
+  {
+    "name": "indexhu",
+    "page": "https://index.hu/kultur/2019/11/26/a_vilag_leghiresebb_szusisefjenek_sikerult_elvesztenie_mindharom_michelin-csillagjat/",
+    "titleSelector": "h1>span",
+    "contentSelector": ".cikk-torzs"
+  },
+  {
+    "name": "origo",
+    "page": "https://www.origo.hu/itthon/20191127-unokazos-csalokat-fogtak-el-liverpoolban.html",
+    "titleSelector": "#article-head>h1",
+    "contentSelector": "#article-text"
+  },
+  {
+    "name": "intelligentcio",
+    "page": "https://www.intelligentcio.com/africa/2019/11/27/technology-and-innovation-will-help-speed-up-removal-of-land-sector-corruption-in-africa/",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "waltainfo",
+    "page": "http://www.waltainfo.com/index.php/news/detail/52380&locale=en",
+    "titleSelector": "h4.media-heading",
+    "contentSelector": ".wic-content-description"
+  },
+  {
+    "name": "borkena",
+    "page": "https://borkena.com/2019/11/27/ethiopia-launches-the-second-electronic-world-trade-platform-in-africa/",
+    "titleSelector": "h1.entry-title",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "addisstandard",
+    "page": "https://addisstandard.com/special-edition-teffgate-a-dutchmans-conning-of-the-ethiopian-state/",
+    "titleSelector": "h1.vw-page-title",
+    "contentSelector": ".vw-post-content"
+  },
+  {
+    "name": "ezega",
+    "page": "https://www.ezega.com/News/NewsDetails/7484/TPLF-to-Hold-Emergency-Meeting-on-United-National-Party",
+    "titleSelector": "#WebPortalMain_lblHeadLines",
+    "contentSelector": ".col-xs-12.col-sm-9 div[itemtype]>div:1"
+  },
+  {
+    "name": "allafrica",
+    "page": "https://allafrica.com/stories/201911270055.html",
+    "titleSelector": "h2.headline",
+    "contentSelector": ".story-body"
+  },
+  {
+    "name": "denik",
+    "page": "https://www.denik.cz/ekonomika/vit-vazan-ceske-radiokomunikace-dvb-t2-televize-vysilani-kanaly-20191126.html",
+    "titleSelector": "h1",
+    "contentSelector": ".article-text"
+  },
+  {
+    "name": "ceskenoviny",
+      "page": "https://www.ceskenoviny.cz/zpravy/novotny-podekoval-hradu-za-smirlivy-postoj-k-pomniku-vlasovcu/1825708",
+    "titleSelector": "h1[itemprop]",
+    "contentSelector": "#articlebody"
+  },
+  {
+    "name": "echo24",
+    "page": "https://www.echo24.cz/a/Sey6Y/nemecko-prislo-s-novym-navrhem-na-prerozdelovani-migrantu-ceska-vlada-jej-odmita",
+    "titleSelector": "h1.article-detail__title",
+    "contentSelector": ".js-adPointer"
+  },
+  {
+    "name": "ceskatelevize",
+    "page": "https://ct24.ceskatelevize.cz/ekonomika/2989457-minimalni-mzda-vzroste-na-14-600-korun",
+    "titleSelector": "h1",
+    "contentSelector": ".article-content .grid-lg-8"
+  },
+  {
+    "name": "novinky",
+    "page": "https://www.novinky.cz/zahranicni/amerika/clanek/trup-noveho-boeingu-777x-se-pri-pevnostnim-testu-roztrhl-40305130",
+    "titleSelector": "h1",
+    "contentSelector": ".f_dO"
+  },
+  {
+    "name": "expres",
+    "page": "https://www.expres.cz/svet/tesla-elon-musk-ostuda-cybertruck-youtube.A191125_114726_dx-svet_peve",
+    "titleSelector": "h1",
+    "contentSelector": "#art-text"
+  },
+  {
+    "name": "nova",
+    "page": "https://tn.nova.cz/clanek/cesko-zasahnou-krute-mrazy-po-teplem-podzimu-prichazi-snih.html",
+    "titleSelector": "h1",
+    "contentSelector": "#text_clanku"
+  },
+  {
+    "name": "informador",
+    "page": "https://www.informador.mx/jalisco/Fiscalia-investiga-a-Lord-Cafe-por-agresiones-en-Zapopan-20191127-0063.html",
+    "titleSelector": ".news-header h1",
+    "contentSelector":".news-body"
+  },
+  {
+    "name": "excelsior",
+    "page": "https://www.excelsior.com.mx/trending/lordcafe-tras-accidente-vial-arroja-cafe-a-mujer-y-golpea-auto/1349875",
+    "titleSelector": "h1",
+    "contentSelector": "#node-article-body"
+  },
+  {
+    "name": "unotv",
+    "page": "https://www.unotv.com/noticias/estados/distrito-federal/detalle/cae-el-bandido-principal-operador-de-la-union-tepito-en-cdmx-540252/",
+    "titleSelector": "h1",
+    "contentSelector": ".panel-article"
+  },
+  {
+    "name": "milenio",
+    "page": "https://www.milenio.com/espectaculos/esmeralda-ugalde-narra-secuestro-alejandro-sandi",
+    "titleSelector": "h1",
+    "contentSelector": "#content-body"
+  },
+  {
+    "name": "televisa",
+    "page": "https://noticieros.televisa.com/ultimas-noticias/marchas-27-noviembre-2019-cdmx/",
+    "titleSelector": "h1",
+    "contentSelector": "[itemprop='articleBody']"
+  },
+  {
+    "name": "publimetro",
+    "page": "https://www.publimetro.com.mx/mx/noticias/2019/11/27/preven-intensas-movilizaciones-al-sur-la-cdmx.html",
+    "titleSelector": "h1",
+    "contentSelector": ".resumen"
+  },
+  {
+    "name": "hipertextual",
+    "page": "https://hipertextual.com/2019/11/tesla-cybertruck-todo-que-sabemos",
+    "titleSelector": "h1",
+    "contentSelector": ".historia.primera[role='main']"
+  },
+  {
+    "name": "unocero",
+    "page": "https://www.unocero.com/autos/ford-reto-cybertruck-trampa/",
+    "titleSelector": "h1",
+    "contentSelector": ".post-content"
+  },
+  {
+    "name": "usatoday",
+    "page": "https://www.usatoday.com/story/news/nation/2019/11/27/homeless-thanksgiving-pushback-donald-trump-california/4308909002/",
+    "titleSelector": "h1",
+    "contentSelector": ".gnt_ar_b"
+  },
+  {
+    "name": "slate",
+    "page": "https://slate.com/news-and-politics/2019/11/trump-week-in-review-terrible.html",
+    "titleSelector": "h1.article__hed",
+    "contentSelector": "section.article__body"
+  },
+  {
+    "name": "guardian",
+    "page": "https://www.theguardian.com/us-news/2019/nov/15/trump-military-pardons-afghanistan",
+    "titleSelector": "h1",
+    "contentSelector": "div.content__article-body"
   }
 ]
