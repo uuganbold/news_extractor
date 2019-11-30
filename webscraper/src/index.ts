@@ -227,57 +227,81 @@ const _saveShots=async (page:Page, path:string)=>{
 }
 
 import {spawn} from 'child_process'
-const _predict=(url:string)=>{
+import PredictConfig from "./PredictConfig";
+const url_func= require('url');
+
+const _predictUrl=async (urls:Array<[string,string]>,i:number,page:Page)=>{
+    if(i>=urls.length){
+        page.browser().close();
+        return;
+    }
+    let u=urls[i];
     const pythonProcess = spawn('python3',["../classifier/predictor.py"]);
 
+    pythonProcess.stdout.on('data', async (data) => {
+        data=data.toString();
+        console.log(data);
 
+        const title=data.substring(data.indexOf('[',data.indexOf('title:'))+1,
+            data.indexOf(']',data.indexOf('title:')));
 
-    (async ()=>{
-        const page=await _openBrower();
-        pythonProcess.stdout.on('data', async (data) => {
-            data=data.toString();
-            console.log(data);
-            const titles=data.substring(data.indexOf('[',data.indexOf('titles:'))+1,
-                data.indexOf(']',data.indexOf('titles:')))
-                .replace(/\r?\n|\r/g,'');
-            const contents=data.substring(data.indexOf('[',data.indexOf('contents:'))+1,
-                data.indexOf(']',data.indexOf('contents:')))
-                .replace(/\r?\n|\r/g,'');
-            const titlesArray=titles.split(',').map((t:string)=>"[xDataCrawler-id='"+parseInt(t)+"']");
-            const contentsArray=contents.split(',').map((t:string)=>"[xDataCrawler-id='"+parseInt(t)+"']");
-            console.log(titlesArray);
-            console.log(contentsArray);
+        const content=data.substring(data.indexOf('[',data.indexOf('content:'))+1,
+            data.indexOf(']',data.indexOf('content:')));
 
-            if(program.shots){
-                await _tagTitleContents(page,titlesArray,contentsArray);
-                await _saveShots(page,program.shots+"/"+Math.floor(Math.random()*1000)+".png");
-            }
+        const titleSelector="[xDataCrawler-id='"+parseInt(title)+"']";
+        const contentSelector="[xDataCrawler-id='"+parseInt(content)+"']";
+        console.log(titleSelector);
+        console.log(contentSelector);
 
+        if(program.shots){
+            await _tagTitleContents(page,[titleSelector],[contentSelector]);
+            await _saveShots(page,program.shots+"/"+u[0]+".png");
+        }
 
+        await _predictUrl(urls,i+1,page);
+    });
 
-            page.browser().close();
-        });
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
+        page.browser().close();
+    });
+    await _openWebPage(page,u[1]);
 
-        pythonProcess.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-            page.browser().close();
-        });
-        await _openWebPage(page,url);
+    const dimentions=await _readElementsInfo(page);
 
-        const dimentions=await _readElementsInfo(page);
-
-        let line='crawlerId';
-        TagInfoNames.forEach(t=>line+=","+t);
+    let line='crawlerId';
+    TagInfoNames.forEach(t=>line+=","+t);
+    pythonProcess.stdin.write(line+'\n');
+    dimentions.forEach(d=>{
+        let line=d.crawlerId;
+        // @ts-ignore
+        TagInfoNames.forEach(t=>line+=","+d[t]);
         pythonProcess.stdin.write(line+'\n');
-        dimentions.forEach(d=>{
-            let line=d.crawlerId;
-            // @ts-ignore
-            TagInfoNames.forEach(t=>line+=","+d[t]);
-            pythonProcess.stdin.write(line+'\n');
-        });
-        pythonProcess.stdin.end();
+    });
+    pythonProcess.stdin.end();
+};
+const _predict=()=>{
 
-    })();
+        let urls:Array<[string,string]>=[];
+        if(program.predict==='bulk'){
+            let configFile=program.input;
+            console.log("reading file:"+configFile);
+            const rawData=fs.readFileSync(configFile);
+            const config=JSON.parse(rawData.toString()) as Array<PredictConfig>;
+            for (let c of config) {
+                urls.push([c.name, c.page]);
+            }
+        }else{
+            const u=url_func.parse(program.predict,true);
+            urls.push([u.hostname+Math.floor(Math.random()*1000),program.predict]);
+        }
+
+        (async ()=>{
+            const page=await _openBrower();
+
+            await _predictUrl(urls,0,page);
+
+        })();
 
 };
 
@@ -371,7 +395,7 @@ program
     .option('-t --shots <shots>',"directory to save screenshots")
     .parse(process.argv);
 if(program.predict){
-    _predict(program.predict);
+    _predict();
 }else{
     _collectInfo();
 }
