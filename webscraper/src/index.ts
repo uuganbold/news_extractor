@@ -158,8 +158,8 @@ const _openBrower=async ():Promise<Page>=>{
 const _openWebPage=async (page:Page,url:string)=>{
     await page.goto(url,
         {
-            timeout: 3000000,
-            waitUntil: ['load', 'domcontentloaded', 'networkidle2', 'networkidle0']
+            timeout: 60000,
+            waitUntil: ['load', 'domcontentloaded']
         });
 
     await page.setViewport({
@@ -232,53 +232,62 @@ const url_func= require('url');
 
 const _predictUrl=async (urls:Array<[string,string]>,i:number,page:Page)=>{
     if(i>=urls.length){
-        page.browser().close();
+        await page.browser().close();
         return;
     }
-    let u=urls[i];
-    const pythonProcess = spawn('python3',["../classifier/predictor.py"]);
 
-    pythonProcess.stdout.on('data', async (data) => {
-        data=data.toString();
-        console.log(data);
+    try{
 
-        const title=data.substring(data.indexOf('[',data.indexOf('title:'))+1,
-            data.indexOf(']',data.indexOf('title:')));
+        let u=urls[i];
+        console.log("starting:"+u[0]);
+        const pythonProcess = spawn('python3',["../classifier/predictor.py"]);
 
-        const content=data.substring(data.indexOf('[',data.indexOf('content:'))+1,
-            data.indexOf(']',data.indexOf('content:')));
+        pythonProcess.stdout.on('data', async (data) => {
+            data=data.toString();
+            console.log(data);
 
-        const titleSelector="[xDataCrawler-id='"+parseInt(title)+"']";
-        const contentSelector="[xDataCrawler-id='"+parseInt(content)+"']";
-        console.log(titleSelector);
-        console.log(contentSelector);
+            const title=data.substring(data.indexOf('[',data.indexOf('title:'))+1,
+                data.indexOf(']',data.indexOf('title:')));
 
-        if(program.shots){
-            await _tagTitleContents(page,[titleSelector],[contentSelector]);
-            await _saveShots(page,program.shots+"/"+u[0]+".png");
-        }
+            const content=data.substring(data.indexOf('[',data.indexOf('content:'))+1,
+                data.indexOf(']',data.indexOf('content:')));
 
-        await _predictUrl(urls,i+1,page);
-    });
+            const titleSelector="[xDataCrawler-id='"+parseInt(title)+"']";
+            const contentSelector="[xDataCrawler-id='"+parseInt(content)+"']";
+            console.log(titleSelector);
+            console.log(contentSelector);
 
-    pythonProcess.stderr.on('data', (data) => {
-        console.error(`stderr: ${data}`);
-        page.browser().close();
-    });
-    await _openWebPage(page,u[1]);
+            if(program.shots){
+                await _tagTitleContents(page,[titleSelector],[contentSelector]);
+                await _saveShots(page,program.shots+"/"+u[0]+".png");
+            }
 
-    const dimentions=await _readElementsInfo(page);
+            await _predictUrl(urls,i+1,page);
+        });
 
-    let line='crawlerId';
-    TagInfoNames.forEach(t=>line+=","+t);
-    pythonProcess.stdin.write(line+'\n');
-    dimentions.forEach(d=>{
-        let line=d.crawlerId;
-        // @ts-ignore
-        TagInfoNames.forEach(t=>line+=","+d[t]);
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+            page.browser().close();
+        });
+        await _openWebPage(page,u[1]);
+
+        const dimentions=await _readElementsInfo(page);
+
+        let line='crawlerId';
+        TagInfoNames.forEach(t=>line+=","+t);
         pythonProcess.stdin.write(line+'\n');
-    });
-    pythonProcess.stdin.end();
+        dimentions.forEach(d=>{
+            let line=d.crawlerId;
+            // @ts-ignore
+            TagInfoNames.forEach(t=>line+=","+d[t]);
+            pythonProcess.stdin.write(line+'\n');
+        });
+        pythonProcess.stdin.end();
+    }catch (e) {
+        console.error(e);
+        await _predictUrl(urls,i+1,page);
+    }
+
 };
 const _predict=()=>{
 
@@ -302,7 +311,113 @@ const _predict=()=>{
             await _predictUrl(urls,0,page);
 
         })();
+};
 
+const _testUrl=async (configToProcess: Array<SiteConfig>, i: number, stat:[number,number],page: Page)=>{
+    if(i>=configToProcess.length){
+        await page.browser().close();
+        console.log("####### FINISHED TESTING ########");
+        console.log("TITLE: "+stat[0]+"/"+configToProcess.length+", ("+(stat[0]/configToProcess.length)+")");
+        console.log("CONTENT: "+stat[1]+"/"+configToProcess.length+", ("+(stat[1]/configToProcess.length)+")");
+        return;
+    }
+
+    try{
+
+        let u=configToProcess[i];
+        console.log("starting:"+u.name);
+        let titleId="";
+        let contentId="";
+        const pythonProcess = spawn('python3',["../classifier/predictor.py"]);
+
+        pythonProcess.stdout.on('data', async (data) => {
+            data=data.toString();
+            console.log(data);
+
+            const title=data.substring(data.indexOf('[',data.indexOf('title:'))+1,
+                data.indexOf(']',data.indexOf('title:')));
+
+            const content=data.substring(data.indexOf('[',data.indexOf('content:'))+1,
+                data.indexOf(']',data.indexOf('content:')));
+
+            console.log(u.name+"--> title:"+(titleId===title.trim())+",  content:"+(contentId===content.trim()));
+
+            if(program.shots){
+                const titleSelector="[xDataCrawler-id='"+parseInt(title)+"']";
+                const contentSelector="[xDataCrawler-id='"+parseInt(content)+"']";
+                await _tagTitleContents(page,[titleSelector],[contentSelector]);
+                await _saveShots(page,program.shots+"/"+u.name+".png");
+            }
+            await _testUrl(configToProcess,i+1,[stat[0]+=(titleId===title)?1:0,stat[1]+=(contentId===content)?1:0],page);
+        });
+
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+            page.browser().close();
+        });
+        await _openWebPage(page,u.page);
+        console.log("opened web page");
+        await _tagTitleContents(page,[u.titleSelector],[u.contentSelector]);
+
+        const dimentions=await _readElementsInfo(page);
+
+        let line='crawlerId';
+        TagInfoNames.forEach(t=>line+=","+t);
+        pythonProcess.stdin.write(line+'\n');
+        dimentions.forEach(d=>{
+            let line=d.crawlerId;
+            // @ts-ignore
+            TagInfoNames.forEach(t=>line+=","+d[t]);
+            pythonProcess.stdin.write(line+'\n');
+            if(d.title) titleId=d.crawlerId;
+            if(d.content) contentId=d.crawlerId;
+        });
+        pythonProcess.stdin.end();
+    }catch (e) {
+        console.error(e);
+        await _testUrl(configToProcess,i+1,stat,page);
+    }
+};
+
+const _test=()=>{
+    let confieFile=program.input;
+
+    console.log("reading file:"+confieFile);
+    const rawData=fs.readFileSync(confieFile);
+    const config=JSON.parse(rawData.toString()) as Array<SiteConfig>;
+
+    let configToProcess=config;
+    if(program.begin){
+        configToProcess=[];
+        let begined=false;
+        for(let c of config){
+            if(begined) configToProcess.push(c);
+            else if(c.name===program.begin){
+                configToProcess.push(c);
+                begined=true;
+            }
+        }
+    }else
+    if(program.sites){
+        const sitesToProcess:Array<string>=program.sites.split(",");
+        configToProcess=[];
+        sitesToProcess.forEach(s=>{
+            for(let c of config){
+                if(c.name===s){
+                    configToProcess.push(c);
+                    break;
+                }
+            }
+        })
+    }
+
+    (async () => {
+
+        const page=await _openBrower();
+
+        await _testUrl(configToProcess,0,[0,0],page);
+
+    })();
 };
 
 const _collectInfo=()=>{
@@ -389,13 +504,16 @@ program
     .option('-i, --input <input>', 'input config file of sites to scrape','sites.json')
     .option('-o, --output <output>', 'output file to save','out.csv')
     .option('-a --append','append to file')
+    .option('-t --test','start to testing')
     .option('-b --begin <siteToBegin>','site to begin')
     .option('-s --sites <sites>','sites to process')
     .option('-p --predict <predict>', "page to predict")
-    .option('-t --shots <shots>',"directory to save screenshots")
+    .option('-h --shots <shots>',"directory to save screenshots")
     .parse(process.argv);
 if(program.predict){
     _predict();
+}else if(program.test){
+    _test();
 }else{
     _collectInfo();
 }

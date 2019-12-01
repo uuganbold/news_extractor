@@ -61,13 +61,13 @@
   },
   {
     "name": "livetv",
-    "page": "https://livetv.mn/p/13653",
-    "titleSelector": ".post-view h3",
-    "contentSelector": ".post-view .page-title"
+    "page": "https://livetv.mn/p/14402",
+    "titleSelector": "h2",
+    "contentSelector": ".news-content-container"
   },
   {
     "name": "sonin",
-    "page": "http://www.sonin.mn/news/politics-economy/106542",
+    "page": "http://www.sonin.mn/news/politics-fb-bot/107105",
     "titleSelector": "h3",
     "contentSelector": ".sonin-nctext"
   },
@@ -81,7 +81,7 @@
     "name": "itoim",
     "page": "http://itoim.mn/article/ltEz7/18850",
     "titleSelector": "h1",
-    "contentSelector": ".post-contents .container:1:.col-md-8"
+    "contentSelector": ".post-contents"
   },
   {
     "name": "medee",
@@ -513,7 +513,7 @@
     "name": "ceskatelevize",
     "page": "https://ct24.ceskatelevize.cz/ekonomika/2989457-minimalni-mzda-vzroste-na-14-600-korun",
     "titleSelector": "h1",
-    "contentSelector": ".article-content .grid-lg-8"
+    "contentSelector": ".article-content"
   },
   {
     "name": "novinky",
@@ -598,5 +598,293 @@
     "page": "https://www.theguardian.com/us-news/2019/nov/15/trump-military-pardons-afghanistan",
     "titleSelector": "h1",
     "contentSelector": "div.content__article-body"
+  },
+  {
+    "name": "electrek",
+    "page": "https://electrek.co/2019/11/30/tesla-ceo-elon-musk-cybertruck-could-hit-cd-3-with-extreme-effort/",
+    "titleSelector": "h1.post-title",
+    "contentSelector": "div[itemprop='articleBody']"
+  },
+  {
+    "name": "bbc",
+    "page": "https://www.bbc.com/news/world-us-canada-50619952",
+    "titleSelector": ".story-body__h1",
+    "contentSelector": ".story-body__inner"
+  },
+  {
+    "name": "wdsu",
+    "page": "https://www.wdsu.com/article/gym-designed-especially-for-veterans-helps-them-reacclimate-to-civilian-life/30063565",
+    "titleSelector": "h1.article-headline--title",
+    "contentSelector": ".article-content--body-teaser"
+  },
+  {
+    "name": "efinancialcareers",
+    "page": "https://news.efinancialcareers.com/uk-en/3002761/coding-languages-for-a-job-at-google",
+    "titleSelector": "h1",
+    "contentSelector": "div[itemprop='text']"
+  },
+  {
+    "name": "salon",
+    "page": "https://www.salon.com/2019/11/30/the-war-crimes-president-donald-trump-doesnt-understand-the-damage-hes-causing-to-the-military/",
+    "titleSelector": "h1",
+    "contentSelector": "article"
+  },
+  {
+    "name": "mercurynews",
+    "page": "https://www.mercurynews.com/2019/11/30/report-ex-raider-terrelle-pryor-in-critical-condition-after-stabbing/",
+    "titleSelector": "h1>span",
+    "contentSelector": ".body-copy"
+  },
+  {
+    "name": "hackaday",
+    "page": "https://hackaday.com/2019/11/30/circuit-simulation-in-python/",
+    "titleSelector": "h1.entry-title",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "msn",
+    "page": "https://www.msn.com/en-us/news/world/london-attack-spurs-heroism-and-questions-about-a-prisoners-release/ar-BBXzdJS?li=BBnb7Kz",
+    "titleSelector": "h1",
+    "contentSelector": ".articlebody"
+  },
+  {
+    "name": "telegraph",
+    "page": "https://www.telegraph.co.uk/news/2019/12/01/terrorists-should-not-forced-serve-full-sentence-prison-jeremy/",
+    "titleSelector": "h1",
+    "contentSelector": "article"
+  },
+  {
+    "name": "wgntv",
+    "page": "https://wgntv.com/2019/12/01/chicago-couple-who-run-cookie-business-catch-attention-of-food-network/",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "axios",
+    "page": "https://www.axios.com/auto-workers-union-fiat-chrysler-tentative-deal-171526b8-8087-4dad-b07e-a4133c5a0299.html",
+    "titleSelector": "h1",
+    "contentSelector": "div[itemprop='articleBody']"
+  },
+  {
+    "name": "bloomberg",
+    "page": "https://www.bloomberg.com/news/articles/2019-12-01/the-way-out-for-a-world-economy-hooked-on-debt-yet-more-debt",
+    "titleSelector": "h1",
+    "contentSelector": ".body-copy-v2"
+  },
+  {
+    "name": "forbes",
+    "page": "https://www.forbes.com/sites/gordonkelly/2019/12/01/amazon-cyber-monday-2019-iphone-airpods-macbook-ps4-xbox-galaxy-s10-note10-echo-kindle-fire-tv-deals/#74f924cd26fe",
+    "titleSelector": "h1",
+    "contentSelector": ".article-container>div"
+  },
+  {
+    "name": "theverge",
+    "page": "https://www.theverge.com/2019/12/1/20989758/cyber-monday-apple-deals-watch-airpods-macbook-ipad-sale",
+    "titleSelector": "h1",
+    "contentSelector": ".c-entry-content"
+  },
+  {
+    "name": "techradar",
+    "page": "https://www.techradar.com/uk/news/this-unbeatable-google-pixel-4-deal-and-free-gift-are-set-to-come-to-an-end-tonight",
+    "titleSelector": "h1",
+    "contentSelector": "#article-body"
+  },
+  {
+    "name": "medium",
+    "page": "https://towardsdatascience.com/machine-learning-books-you-should-read-in-2020-344b44d9a11e",
+    "titleSelector": "h1",
+    "contentSelector": "div.ac:2"
+  },
+  {
+    "name": "aol",
+    "page": "https://www.aol.com/article/entertainment/2019/12/01/pete-davidson-asks-fans-to-sign-dollar1-million-nda-before-comedy-show/23871617/",
+    "titleSelector": "h1",
+    "contentSelector":"#article-content"
+  },
+  {
+    "name": "loudwire",
+    "page": "https://loudwire.com/slayer-play-final-song-angel-of-death-say-farewell/",
+    "titleSelector": "h1",
+    "contentSelector": ".pod-content"
+  },
+  {
+    "name": "blabbermouth",
+    "page": "https://www.blabbermouth.net/news/watch-tom-araya-bid-emotional-goodbye-to-fans-at-last-ever-slayer-concert/",
+    "titleSelector": "h1.newsh1-single",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "cnet",
+    "page": "https://www.cnet.com/news/the-new-baby-yoda-sipping-soup-meme-has-so-many-uses/",
+    "titleSelector": "h1",
+    "contentSelector": ".article-main-body"
+  },
+  {
+    "name": "zuv1",
+    "page": "http://zuv.mn/l7s",
+    "titleSelector": "h1",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "zuv2",
+    "page": "http://zuv.mn/l83",
+    "titleSelector": "h1",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "zuv3",
+    "page": "http://zuv.mn/l82",
+    "titleSelector": "h1",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "updown1",
+    "page": "https://updown.mn/102635.html",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "updown2",
+    "page": "https://updown.mn/102608.html",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "updown3",
+    "page": "https://updown.mn/102594.html",
+    "titleSelector": "h1",
+    "contentSelector": ".entry-content"
+  },
+  {
+    "name": "mongolcom1",
+    "page": "http://mongolcom.mn/read/2523",
+    "titleSelector": "h1",
+    "contentSelector": ".article-content"
+  },
+  {
+    "name": "mongolcom2",
+    "page": "http://mongolcom.mn/read/1343",
+    "titleSelector": "h1",
+    "contentSelector": ".article-content"
+  },
+  {
+    "name": "mongolcom3",
+    "page": "http://mongolcom.mn/read/17429",
+    "titleSelector": "h1",
+    "contentSelector": ".article-content"
+  },
+  {
+    "name": "zarig1",
+    "page": "https://zarig.mn/h29",
+    "titleSelector": "h2",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "zarig2",
+    "page": "https://zarig.mn/h20",
+    "titleSelector": "h2",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "zarig3",
+    "page": "https://zarig.mn/h1w",
+    "titleSelector": "h2",
+    "contentSelector": ".desc"
+  },
+  {
+    "name": "sosa1",
+    "page": "http://www.sosa.mn/i/10733",
+    "titleSelector": "h2.page-title",
+    "contentSelector": ".news-detail-text"
+  },
+  {
+    "name": "sosa2",
+    "page": "http://www.sosa.mn/i/10726",
+    "titleSelector": "h2.page-title",
+    "contentSelector": ".news-detail-text"
+  },
+  {
+    "name": "sosa3",
+    "page": "http://www.sosa.mn/i/10732",
+    "titleSelector": "h2.page-title",
+    "contentSelector": ".news-detail-text"
+  },
+  {
+    "name": "mminfo1",
+    "page": "http://mminfo.mn/news/view/24567",
+    "titleSelector": "#ch1 h2",
+    "contentSelector": "#ch1 div.ft"
+  },
+  {
+    "name": "mminfo2",
+    "page": "http://mminfo.mn/news/view/24568",
+    "titleSelector": "#ch1 h2",
+    "contentSelector": "#ch1 div.ft"
+  },
+  {
+    "name": "mminfo3",
+    "page": "http://mminfo.mn/politics/news/24565",
+    "titleSelector": "#ch1 h2",
+    "contentSelector": "#ch1 div.ft"
+  },
+  {
+    "name": "asuudal1",
+    "page": "http://asuudal.mn/more/2939",
+    "titleSelector": "h1",
+    "contentSelector": "#news-content"
+  },
+  {
+    "name": "asuudal2",
+    "page": "http://asuudal.mn/more/2938",
+    "titleSelector": "h1",
+    "contentSelector": "#news-content"
+  },
+  {
+    "name": "asuudal3",
+    "page": "http://asuudal.mn/more/2930",
+    "titleSelector": "h1",
+    "contentSelector": "#news-content"
+  },
+  {
+    "name": "zindaa1",
+    "page": "https://news.zindaa.mn/2zoy",
+    "titleSelector": "h1",
+    "contentSelector": ".desc_contents"
+  },
+  {
+    "name": "zindaa2",
+    "page": "https://news.zindaa.mn/2zqe",
+    "titleSelector": "h1",
+    "contentSelector": ".desc_contents"
+  },
+  {
+    "name": "zindaa3",
+    "page": "https://news.zindaa.mn/2zqj",
+    "titleSelector": "h1",
+    "contentSelector": ".desc_contents"
+  },
+  {
+    "name": "newsmedia1",
+    "page": "http://newsmedia.mn/31639",
+    "titleSelector": "h2:0",
+    "contentSelector": ".single-main>div"
+  },
+  {
+    "name": "newsmedia2",
+    "page": "http://newsmedia.mn/11306",
+    "titleSelector": "h2:0",
+    "contentSelector": ".single-main>div"
+  },
+  {
+    "name": "paparatsi1",
+    "page": "https://paparatsi.mn/pgi",
+    "titleSelector": ".newsDetTitle",
+    "contentSelector": ".newsDetDesc"
+  },
+  {
+    "name": "paparatsi2",
+    "page": "https://paparatsi.mn/pfk",
+    "titleSelector": ".newsDetTitle",
+    "contentSelector": ".newsDetDesc"
   }
 ]

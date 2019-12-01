@@ -1,8 +1,8 @@
 [
   {
-    "name": "cnn",
-    "page": "https://www.cnn.com/2019/11/07/politics/donald-trump-rudy-giuliani-impeachment/index.html",
-    "titleSelector": "h1",
-    "contentSelector": ".zn-body-text .l-container"
+    "name": "dailymail",
+    "page": "https://www.dailymail.co.uk/news/article-7740295/Knife-attacker-shot-dead-London-Bridge-known-police-security-sources-reveal.html?fbclid=IwAR0tzqsrLCQpVpRJObcKVCet39Asb01R8bGyOsWQaBEegtM8n-9wwfSiAEc",
+    "titleSelector": "#js-article-text>h2",
+    "contentSelector": "div[itemprop='articleBody']"
   }
 ]
