@@ -1,8 +1,12 @@
+Uuganbold Tsegmed<br/>
+Comp 479 – Machine Learning<br/>
+11 November 2019<br/>
+
 # New Extractor
 
 In this project, I built a model that could extract the title and the main textual content from 
-news web pages. According to the test result, my model can correctly identify the title 90%, and 
-the content 75%. 
+news web pages. According to the test result, my model can correctly identify the title **90%**, and 
+the content **75%**. 
 
 When we crawl websites to build a search engine or for other purposes, 
 it turns out very difficult because of noisy contents not related to the main article. 
@@ -77,7 +81,7 @@ it contains a thousand html elements.
 The model was trained with the data scraped from 100 websites out of the 120 websites, the twenty was left for the test. 
 And I duplicated the dataset for title and content. 
 
-Briefly, I accomplished steps below on data preprocessing phase. 
+**Briefly, I accomplished steps below on data preprocessing phase.**
 1. Removed useless column - url
 2. Changed non numeric values with the most frequent values - margins, paddings
 3. Some html tags are not available to make title or content with it. 
@@ -88,18 +92,19 @@ Onehot-encoding feature for the most frequent value was removed because it would
 my dimension and it allowed me to convert a totally new value to the most frequent one
 if it is encountered on testing or application level.   
 
-I used k-fold validation and grid search to find the best model.
+**I used k-fold validation and grid search to find the best model.**
 
-F1 score was the most proper measurement because:
+**F1 score was the most proper measurement because:**
 * Accuracy would never show reliable number because of the dataset's unbalance.
 * Precision should be considered because I did not want "noise"
 * Recall should be considered because I did not want to miss my "precious information"
 * Considering both precision and recall means F1.
 
-* On my first experiment, I got almost 100% accuracy, but 0% precision and 0% recall.<br/>
+### Training results
+1. On my first experiment, I got almost 100% accuracy, but 0% precision and 0% recall.<br/>
 Then, I realized it was due to the dataset's unbalance. 
 
-* On my second experiment, I used oversampling to improve the balance and got the result below with SVM
+2. On my second experiment, I used oversampling to improve the balance and got the result below with SVM
 
 |     Metrics | Title |  Content |
 | ------- | -----: | -------: |
@@ -112,7 +117,7 @@ It meant that my model could find what I was looking for very well (0.7, 1.0), b
 also found what I did not want (0.109, 0.07). 
 My model gave me many positive results even though I was looking for only one positive result. 
 
-* So I made my model to give me only one positive result based on the probability using a wrapper function.
+3. So I made my model to give me only one positive result based on the probability using a wrapper function.
 I got the result below with LogisticRegression.
 
 |     Metrics |  Title | Content |
@@ -122,7 +127,7 @@ I got the result below with LogisticRegression.
 | Recall | 0.720 | 0.625 |
 | F1 | 0.720 | 0.617 |
 
-* Then, I read that Decision Trees algorithm performs well on imbalanced dataset. So, I trained the RandomForest
+4. Then, I read that Decision Trees algorithm performs well on imbalanced dataset. So, I trained the RandomForest
 on my dataset and got the result below
 
 |     Metrics |  Title | Content |
@@ -132,8 +137,11 @@ on my dataset and got the result below
 | Recall | 0.94 | 0.85 |
 | F1 | 0.94 | 0.839 |
 
+According to the result, the model trained with RandomForest algorithm was the best model. 
+Therefore, I chose that as my final model used for my application.
+
 ## Testing
-On training set, the model showed the result below.
+On test set, the model showed the result below.
 
 |     Metrics |  Title | Content |
 | ------- | -----: | -------: |
@@ -156,12 +164,14 @@ left to implement those ideas, I will save them for another time.
 because it seemed not to show much improvement. Nonetheless, I think logically it would work, 
 so I will consider it seriously later. 
 
-2. I noticed that some prediction was deemed to missed even though it was right.
+2. I noticed that some prediction was deemed as missed even though it can be considered right.
+
 ![gereg](gereg.png)
+
 For example, on the image above, the model distinguished the outer element which added only few buttons.
 <br/><br/>Technically, it could be tagged positive because it did not add any text to the content. Even there was 
 some cases that the outer element did not add anything to the inner element and just wrapped it.
-<br/><br/>So, I will make my model can accept multiple positive element as training data and output only one positive result.
+<br/><br/>So, I will prepare the dataset differently and make my model can accept multiple positive element as training data and output only one positive result.
 And also, it will be evaluated on whether it can distinguish one of those positive samples.    
 
 ## Conclusion
@@ -172,6 +182,5 @@ While working on the project, I comprehended about difficulties of imbalanced da
 to tackle the difficulties. On top of that, I got good sense about insight of the metrics to evaluate models. 
 
 In addition, it was good a lesson to learn using a ML model in my application. I persisted my model to file and used in my application.
-
 
 
