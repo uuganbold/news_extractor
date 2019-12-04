@@ -59,7 +59,6 @@ def predict(data,black_list,model_cols,freqs,scaler,model):
 title_id=predict(data,tag_title_blacklist,cols_title,freqs,scaler_title,titleClassifier)
 content_id=predict(data,tag_content_blacklist,cols_content,freqs,scaler_content,contentClassifier)
 
-### Predicting TITLE ##
 
 print('title: [',title_id,']')
 print('content: [',content_id,']')

@@ -602,7 +602,7 @@
   {
     "name": "electrek",
     "page": "https://electrek.co/2019/11/30/tesla-ceo-elon-musk-cybertruck-could-hit-cd-3-with-extreme-effort/",
-    "titleSelector": "h1.post-title",
+    "titleSelector": "h1.post-title>a",
     "contentSelector": "div[itemprop='articleBody']"
   },
   {

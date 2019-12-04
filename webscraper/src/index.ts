@@ -239,6 +239,7 @@ const _predictUrl=async (urls:Array<[string,string]>,i:number,page:Page)=>{
     try{
 
         let u=urls[i];
+        let dimentions:TagInfo[];
         console.log("starting:"+u[0]);
         const pythonProcess = spawn('python3',["../classifier/predictor.py"]);
 
@@ -252,12 +253,11 @@ const _predictUrl=async (urls:Array<[string,string]>,i:number,page:Page)=>{
             const content=data.substring(data.indexOf('[',data.indexOf('content:'))+1,
                 data.indexOf(']',data.indexOf('content:')));
 
-            const titleSelector="[xDataCrawler-id='"+parseInt(title)+"']";
-            const contentSelector="[xDataCrawler-id='"+parseInt(content)+"']";
-            console.log(titleSelector);
-            console.log(contentSelector);
-
             if(program.shots){
+                const titleSelector="[xDataCrawler-id='"+parseInt(title)+"']";
+                const contentSelector="[xDataCrawler-id='"+parseInt(content)+"']";
+                //console.log(titleSelector);
+                //console.log(contentSelector);
                 await _tagTitleContents(page,[titleSelector],[contentSelector]);
                 await _saveShots(page,program.shots+"/"+u[0]+".png");
             }
@@ -265,13 +265,13 @@ const _predictUrl=async (urls:Array<[string,string]>,i:number,page:Page)=>{
             await _predictUrl(urls,i+1,page);
         });
 
-        pythonProcess.stderr.on('data', (data) => {
+        pythonProcess.stderr.on('data', async (data) => {
             console.error(`stderr: ${data}`);
-            page.browser().close();
+            await page.browser().close();
         });
         await _openWebPage(page,u[1]);
 
-        const dimentions=await _readElementsInfo(page);
+        dimentions=await _readElementsInfo(page);
 
         let line='crawlerId';
         TagInfoNames.forEach(t=>line+=","+t);
@@ -313,13 +313,13 @@ const _predict=()=>{
         })();
 };
 
-const _testUrl=async (configToProcess: Array<SiteConfig>, i: number, stat:[number,number],page: Page)=>{
+const _testUrl=async (configToProcess: Array<SiteConfig>, i: number, titleStat:number,contentStat:number,page: Page)=>{
     if(i>=configToProcess.length){
         await page.browser().close();
         console.log("####### FINISHED TESTING ########");
-        console.log("TITLE: "+stat[0]+"/"+configToProcess.length+", ("+(stat[0]/configToProcess.length)+")");
-        console.log("CONTENT: "+stat[1]+"/"+configToProcess.length+", ("+(stat[1]/configToProcess.length)+")");
-        return;
+        console.log("TITLE: "+titleStat+"/"+configToProcess.length+", ("+(titleStat/configToProcess.length)+")");
+        console.log("CONTENT: "+contentStat+"/"+configToProcess.length+", ("+(contentStat/configToProcess.length)+")");
+        process.exit();
     }
 
     try{
@@ -348,7 +348,9 @@ const _testUrl=async (configToProcess: Array<SiteConfig>, i: number, stat:[numbe
                 await _tagTitleContents(page,[titleSelector],[contentSelector]);
                 await _saveShots(page,program.shots+"/"+u.name+".png");
             }
-            await _testUrl(configToProcess,i+1,[stat[0]+=(titleId===title)?1:0,stat[1]+=(contentId===content)?1:0],page);
+            let newTitleStat=titleStat+((titleId==title.trim())?1:0);
+            let newContentStat=contentStat+((contentId==content.trim())?1:0);
+            await _testUrl(configToProcess,i+1,newTitleStat,newContentStat,page);
         });
 
         pythonProcess.stderr.on('data', (data) => {
@@ -375,7 +377,7 @@ const _testUrl=async (configToProcess: Array<SiteConfig>, i: number, stat:[numbe
         pythonProcess.stdin.end();
     }catch (e) {
         console.error(e);
-        await _testUrl(configToProcess,i+1,stat,page);
+        await _testUrl(configToProcess,i+1,titleStat,contentStat,page);
     }
 };
 
@@ -415,7 +417,7 @@ const _test=()=>{
 
         const page=await _openBrower();
 
-        await _testUrl(configToProcess,0,[0,0],page);
+        await _testUrl(configToProcess,0,0,0,page);
 
     })();
 };
@@ -496,7 +498,7 @@ const _collectInfo=()=>{
 
         page.browser().close();
     })();
-}
+};
 
 
 
